@@ -22,3 +22,10 @@ flutter:
     - assets/images/
 
   uses-material-design: true
+  
+  fonts:
+  - family: Alegreya
+    fonts:
+      - asset: assets/fonts/AlegreyaSC-Black.ttf
+      - asset: assets/fonts/AlegreyaSC-Bold.ttf
+        weight: 700

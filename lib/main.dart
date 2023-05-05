@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 
+import 'login.dart';
 import 'menu.dart';
 
 void main() {
   runApp(MyApp());
 }
 
+final ThemeData temaDonQuijote = ThemeData(
+  primarySwatch: Colors.brown,
+  fontFamily: 'Alegreya',
+  textTheme: TextTheme(
+    headline6: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+  ),
+);
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'El Quijote de la Mancha',
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
-      ),
+      theme: temaDonQuijote,
       home: MenuScreen(),
     );
   }
