@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -27,6 +29,9 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var containerWidth = MediaQuery.of(context).size.width;
+    var containerHeight = MediaQuery.of(context).size.height;
+    var backgroundImageFit = BoxFit.cover;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -35,25 +40,95 @@ class MenuScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.brown,
         actions: [
-          Row(
-            children: [
-              Icon(Icons.monetization_on_outlined),
-              SizedBox(width: 8),
-              Text('$_monedas'),
-            ],
+          Container(
+            margin: EdgeInsets.only(right: 14),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.monetization_on_outlined,
+                  color: Colors.amber,
+                ),
+                SizedBox(width: 5),
+                Text(
+                  '$_monedas',
+                  style: TextStyle(
+                    fontFamily: 'Alegreya',
+                    fontSize: 40,
+                    color: Colors.amber,
+                  ),
+                ),
+              ],
+            ),
           ),
-          SizedBox(width: 16),
         ],
       ),
-      body: PageView.builder(
-        itemCount: niveles.length,
-        itemBuilder: (BuildContext context, int index) {
-          return NivelCard(
-            nivel: 'Nivel ${index + 1}',
-            imagen: imagenesNiveles[index],
-          );
-        },
+      body: Center(
+        child: Container(
+          width: containerWidth.toDouble(),
+          height: containerHeight.toDouble(),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/pergamino.png"),
+              fit: backgroundImageFit,
+            ),
+          ),
+          child: PageView.builder(
+            itemCount: niveles.length,
+            // imagen a cambiar
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                child: NivelCard(
+                  nivel: 'Nivel ${index + 1}',
+                  imagen: imagenesNiveles[index],
+                ),
+              );
+            },
+          ),
+        ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.brown,
+        child: Container(
+          height: 56.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                onPressed: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => Tienda()),
+                  // );
+                },
+                icon: Icon(Icons.store),
+                color: Colors.white,
+              ),
+              IconButton(
+                onPressed: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => Inventario()),
+                },
+                icon: Icon(Icons.inventory),
+                color: Colors.white,
+              ),
+              IconButton(
+                onPressed: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => Perfil()),
+                },
+                //icono de perfil
+                icon: Icon(Icons.person),
+                color: Colors.white,
+              ),
+            ],
+          ),
+        ),
+      ),
+      backgroundColor: backgroundImageFit == BoxFit.cover
+          ? Colors.transparent
+          : Colors.white,
     );
   }
 }
@@ -68,47 +143,104 @@ class NivelCard extends StatefulWidget {
   _NivelCardState createState() => _NivelCardState();
 }
 
-class _NivelCardState extends State<NivelCard> {
+class _NivelCardState extends State<NivelCard>
+    with SingleTickerProviderStateMixin {
   bool _mostrarDificultades = false;
+  late AnimationController _controller;
+  late Animation<Offset> _offsetAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset(0, 1),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _toggleDificultades() {
+    setState(() {
+      _mostrarDificultades = !_mostrarDificultades;
+      if (_mostrarDificultades) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.center,
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.75,
-        height: MediaQuery.of(context).size.height * 0.75,
-        child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          child: Stack(
-            children: [
-              Positioned.fill(
+        width: 500,
+        height: 500,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                elevation: 0,
+                color: Colors.transparent,
                 child: Image.asset(
                   widget.imagen,
                   fit: BoxFit.contain,
                 ),
               ),
-              _mostrarDificultades ? _DificultadesWidget() : _nivelWidget(),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 16,
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _mostrarDificultades = !_mostrarDificultades;
-                    });
-                  },
-                  child: Icon(Icons.play_arrow),
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(24),
+            ),
+            //boton de play como barra de navegacion en el fondo que muestre las dificultades del nivel
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 80,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+                ),
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: _toggleDificultades,
+                    child: Text('Jugar'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.brown,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+            SlideTransition(
+              position: _offsetAnimation,
+              child:
+                  _mostrarDificultades ? _DificultadesWidget() : _nivelWidget(),
+            ),
+          ],
         ),
       ),
     );
@@ -117,26 +249,6 @@ class _NivelCardState extends State<NivelCard> {
   Widget _nivelWidget() {
     return Center(child: Text(widget.nivel));
   }
-  // Widget _dificultadesWidget() {
-  //   List<String> dificultades = ['Fácil', 'Intermedio', 'Difícil'];
-  //   return Column(
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     crossAxisAlignment: CrossAxisAlignment.center,
-  //     children: dificultades
-  //         .map(
-  //           (dificultad) => Container(
-  //             alignment: Alignment(0, 0),
-  //             child: ElevatedButton(
-  //               onPressed: () {
-  //                 // Navega al nivel y dificultad seleccionados
-  //               },
-  //               child: Text(dificultad),
-  //             ),
-  //           ),
-  //         )
-  //         .toList(),
-  //   );
-  // }
 }
 
 class _DificultadesWidget extends StatefulWidget {
