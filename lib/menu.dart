@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'map.dart';
+
 class MenuScreen extends StatelessWidget {
   int _monedas = 0;
   List<String> niveles = [
@@ -127,8 +129,22 @@ class MenuScreen extends StatelessWidget {
         ),
       ),
       backgroundColor: backgroundImageFit == BoxFit.cover
-          ? Colors.transparent
+          ? Color.fromRGBO(195, 144, 50, 1.5)
           : Colors.white,
+      //boton flotante del mapa
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(top: 0),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MapScreen()),
+            );
+          },
+          child: Icon(Icons.map),
+          backgroundColor: Colors.brown,
+        ),
+      ),
     );
   }
 }
