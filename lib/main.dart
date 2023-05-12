@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'Nivel1.dart';
 import 'login.dart';
+import 'map.dart';
 import 'menu.dart';
 
 void main() {
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'El Quijote de la Mancha',
       theme: temaDonQuijote,
-      home: MenuScreen(),
+      home: LoginScreen(),
     );
   }
 }
