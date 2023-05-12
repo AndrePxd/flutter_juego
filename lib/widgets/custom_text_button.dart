@@ -18,7 +18,7 @@ class CustomTextButton extends StatelessWidget {
     this.size = 18,
     this.subtext,
     this.subsubtext,
-    this.color = Colors.orange,
+    this.color = Colors.brown,
   });
 
   @override

@@ -18,16 +18,16 @@ class CustomMaterialButton extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      disabledColor: Colors.brown,
+      disabledColor: Colors.white,
       elevation: 0,
-      color: cancel ? Colors.black : Colors.amber,
+      color: cancel ? Colors.black : Colors.brown,
       onPressed: onPressed,
       child: Container(
         padding:
             EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 15),
         child: Text(
           text,
-          style: const TextStyle(color: Colors.brown, fontSize: 18),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
     );
