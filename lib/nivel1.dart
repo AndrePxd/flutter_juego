@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_juego/widgets/wheel_animated.dart';
 
 void main() {
   runApp(MyApp());
@@ -47,39 +49,188 @@ class _GameScreenState extends State<GameScreen> {
       body: Column(
         children: [
           Expanded(
-            child: Container(
-              color: Colors.grey[300],
-              child: Center(
-                child: Text(
-                  '',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+  flex: 3,
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      // Espacio para el libro y el autor
+      Column(
+        children: [
+          Text(
+            'Título del libro',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
+          Text(
+            'Autor del libro',
+            style: TextStyle(fontSize: 14),
+          ),
+        ],
+      ),
+      // Espacio para el texto
+      Container(
+        color: Color.fromARGB(90, 114, 95, 10),
+        child: Center(
+          child: Text(
+            'HOLA MUNDO PROBANDO',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    ],
+  ),
+),
+
           Expanded(
-            flex: 2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            flex: 6,
+            child: Row(
               children: [
-                buildWheel(wheel1Options, wheel1SelectedIndex, level >= 1,
-                    (index) {
-                  setState(() {
-                    wheel1SelectedIndex = index;
-                  });
-                }),
-                buildWheel(wheel2Options, wheel2SelectedIndex, level >= 2,
-                    (index) {
-                  setState(() {
-                    wheel2SelectedIndex = index;
-                  });
-                }),
-                buildWheel(wheel3Options, wheel3SelectedIndex, level >= 3,
-                    (index) {
-                  setState(() {
-                    wheel3SelectedIndex = index;
-                  });
-                }),
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (level >= 1) {
+                            setState(() {
+                              wheel1SelectedIndex =
+                                  _getRandomIndex(wheel1SelectedIndex, wheel1Options.length);
+                            });
+                          }
+                        },
+                        child: Container(
+                          height: 80, // Ajusta la altura según tus necesidades
+                          width: double.infinity, // Ocupa todo el ancho disponible
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: level >= 1 ? Colors.white : Colors.grey,
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                            child: Text(
+                              wheel1Options[wheel1SelectedIndex],
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          if (level >= 2) {
+                            setState(() {
+                              wheel2SelectedIndex =
+                                  _getRandomIndex(wheel2SelectedIndex, wheel2Options.length);
+                            });
+                          }
+                        },
+                        child: Container(
+                          height: 80, // Ajusta la altura según tus necesidades
+                          width: double.infinity, // Ocupa todo el ancho disponible
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: level >= 2 ? Colors.white : Colors.grey,
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                            child: Text(
+                              wheel2Options[wheel2SelectedIndex],
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          if (level >= 3) {
+                            setState(() {
+                              wheel3SelectedIndex =
+                                  _getRandomIndex(wheel3SelectedIndex, wheel3Options.length);
+                            });
+                          }
+                        },
+                        child: Container(
+                          height: 80, // Ajusta la altura según tus necesidades
+                          width: double.infinity, // Ocupa todo el ancho disponible
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: level >= 3 ? Colors.white : Colors.grey,
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                            child: Text(
+                              wheel3Options[wheel3SelectedIndex],
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            if (level >= 1) {
+                              setState(() {
+                                wheel1SelectedIndex =
+                                    _getRandomIndex(wheel1SelectedIndex, wheel1Options.length);
+                              });
+                            }
+                          },
+                          child: Container(
+                            color: Colors.grey[500],
+                            child: AnimatedNumberWheel(
+                              number: wheel1SelectedIndex + 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            if (level >= 2) {
+                              setState(() {
+                                wheel2SelectedIndex =
+                                    _getRandomIndex(wheel2SelectedIndex, wheel2Options.length);
+                              });
+                            }
+                          },
+                          child: Container(
+                            color: Colors.grey[500],
+                            child: AnimatedNumberWheel(
+                              number: wheel2SelectedIndex + 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            if (level >= 3) {
+                              setState(() {
+                                wheel3SelectedIndex =
+                                    _getRandomIndex(wheel3SelectedIndex, wheel3Options.length);
+                              });
+                            }
+                          },
+                          child: Container(
+                            color: Colors.grey[500],
+                            child: AnimatedNumberWheel(
+                              number: wheel3SelectedIndex + 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -111,30 +262,12 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  Widget buildWheel(List<String> options, int selectedIndex, bool isEnabled,
-      ValueChanged<int> onSelectionChanged) {
-    return GestureDetector(
-      onTap: () {
-        if (!isEnabled) return;
-        final random = Random();
-        int index = random.nextInt(options.length);
-        while (index == selectedIndex) {
-          index = random.nextInt(options.length);
-        }
-        onSelectionChanged(index);
-      },
-      child: Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: isEnabled ? Colors.white : Colors.grey,
-          border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          options[selectedIndex],
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    );
+  int _getRandomIndex(int currentIndex, int length) {
+    final random = Random();
+    int index = random.nextInt(length);
+    while (index == currentIndex) {
+      index = random.nextInt(length);
+    }
+    return index;
   }
 }

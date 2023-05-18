@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Nivel1.dart';
+import 'nivel1.dart';
 import 'login.dart';
 import 'map.dart';
 import 'menu.dart';
@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'El Quijote de la Mancha',
       theme: temaDonQuijote,
-      home: LoginScreen(),
+      // home: LoginScreen(),
+      home: GameScreen(),
     );
   }
 }
