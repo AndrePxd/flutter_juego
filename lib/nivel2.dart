@@ -14,19 +14,23 @@ class DragAndDropScreen extends StatefulWidget {
 
 class _DragAndDropScreenState extends State<DragAndDropScreen> {
   List<WordItem> words = [
-    WordItem('Hola 1'),
-    WordItem('Hola 2'),
-    WordItem('Hola 3'),
-    WordItem('Hola 4'),
-    WordItem('Hola 5'),
-    WordItem('Hola 6'),
-    WordItem('Hola 7'),
-    WordItem('Hola 8'),
-    WordItem('Hola 9'),
-    WordItem('Hola 10'),
+    WordItem('Elemento 1'),
+    WordItem('Elemento 2'),
+    WordItem('Elemento 3'),
+    WordItem('Elemento 4'),
+    WordItem('Elemento 5'),
+    WordItem('Elemento 6'),
+    WordItem('Elemento 7'),
+    WordItem('Elemento 8'),
+    WordItem('Elemento 9'),
+    WordItem('Elemento 10'),
   ];
 
   List<WordItem> droppedWords = [];
+  List<String> correctStrings = [
+    'Elemento 1 Elemento 3',
+    'Elemento 4, Elemento 5'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -171,11 +175,24 @@ class _DragAndDropScreenState extends State<DragAndDropScreen> {
               padding: EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
+                  int score = 0;
+                  for (WordItem wordItem in droppedWords) {
+                    for (String correctString in correctStrings) {
+                      if (correctString.contains(wordItem.word)) {
+                        score++;
+                        break;
+                      }
+                    }
+                  }
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ScoreScreen(
-                          score: droppedWords.length, coins: 10, stars: 5),
+                          score: score,
+                          coins: 10,
+                          stars: 5,
+                          maxScore: correctStrings.length + 1),
                     ),
                   );
                 },

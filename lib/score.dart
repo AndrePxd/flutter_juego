@@ -4,8 +4,13 @@ class ScoreScreen extends StatelessWidget {
   final int score;
   final int coins;
   final int stars;
+  final int maxScore;
 
-  ScoreScreen({required this.score, required this.coins, required this.stars});
+  ScoreScreen(
+      {required this.score,
+      required this.coins,
+      required this.stars,
+      required this.maxScore});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,7 @@ class ScoreScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Tu puntaje es: $score/10',
+                  'Tu puntaje es: $score/$maxScore',
                   style: TextStyle(
                       fontSize: 44,
                       color: Colors.black,
@@ -42,7 +47,7 @@ class ScoreScreen extends StatelessWidget {
                       width: 300,
                       child: CircularProgressIndicator(
                         value: score /
-                            10, // Asegúrate de que este valor esté entre 0 y 1
+                            maxScore, // Asegúrate de que este valor esté entre 0 y 1
                         strokeWidth: 10,
                         color: Colors.green,
                       ),
