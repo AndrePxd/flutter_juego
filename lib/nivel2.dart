@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_juego/score.dart';
 
 class WordItem {
   String word;
@@ -37,7 +38,7 @@ class _DragAndDropScreenState extends State<DragAndDropScreen> {
       body: Stack(
         children: [
           Image.asset(
-            'assets/images/niv2.PNG', // Replace with your background image
+            'assets/images/niv2.PNG',
             fit: BoxFit.fitHeight,
             width: 700,
             height: 700,
@@ -57,7 +58,7 @@ class _DragAndDropScreenState extends State<DragAndDropScreen> {
                       padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: words[index].isDragged
-                            ? Colors.red.shade800
+                            ? Colors.blue.shade800
                             : Colors.green.shade800,
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -114,12 +115,12 @@ class _DragAndDropScreenState extends State<DragAndDropScreen> {
                           margin: EdgeInsets.all(8),
                           padding: EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Colors.red.shade800,
+                            color: Colors.transparent,
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
                             wordItem.word,
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                            style: TextStyle(fontSize: 16, color: Colors.black),
                           ),
                         ),
                         feedback: Container(
@@ -162,6 +163,24 @@ class _DragAndDropScreenState extends State<DragAndDropScreen> {
                   droppedWords.add(wordItem);
                 });
               },
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ScoreScreen(
+                          score: droppedWords.length, coins: 10, stars: 5),
+                    ),
+                  );
+                },
+                child: Text('Terminar'),
+              ),
             ),
           ),
         ],
