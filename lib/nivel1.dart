@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_juego/score.dart';
 import 'package:flutter_juego/widgets/wheel_animated.dart';
 
 void main() {
@@ -33,14 +34,41 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+  List<String> PreguntasEasy = [
+    "En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor. [cita larga]",
+    "'Yo sé quién soy', respondió don Quijote, 'y sé que puedo ser no sólo los que he dicho, sino todos los Doce Pares de Francia, y aun todos los nueve de la Fama, pues a todas las hazañas que ellos todos juntos y cada uno por sí han hecho, igualo y aventajo yo solo.' [paráfrasis]",
+    "'Ladran, Sancho, señal de que cabalgamos.' [cita corta]",
+    "'La libertad, Sancho, es uno de los más preciosos dones que a los hombres dieron los cielos; con ella no pueden igualarse los tesoros que encierra la tierra ni el mar encubre; por la libertad, así como por la honra, se puede y debe aventurar la vida.' [cita larga]",
+    "'El que lee mucho y anda mucho, ve mucho y sabe mucho.' [cita corta]",
+    "'No es valiente quien no teme, sino quien vence al miedo.' [cita corta]",
+    "'El amor y la afición con facilidad ciegan los ojos del entendimiento.' [cita corta]",
+    "'El que no sabe gozar de la ventura cuando le viene, no debe quejarse si se pasa.' [cita corta]",
+    "'El que lee mucho y anda mucho, ve mucho y sabe mucho.' [cita corta]",
+    "'Es más fácil ser comedido en la prosperidad que en la adversidad.' [cita corta]"
+  ];
+
+  int currentQuestionIndex = 0;
+
+  List<String> PreguntasMedium = [];
+  List<String> PreguntasHard = [];
+
+  List<String> RespEasy = [];
+  List<String> RespMedium = [];
+  List<String> RespHard = [];
+
   int level = 1;
   List<String> wheel1Options = ['Cita corta', 'Cita larga', 'Paráfrasis'];
-  List<String> wheel2Options = ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4'];
+  List<String> wheel2Options = [
+    'Opción correcta a',
+    'Opción correcta b',
+    'Opción correcta c',
+    'Opción correcta d'
+  ];
   List<String> wheel3Options = [
-    'Respuesta 1',
-    'Respuesta 2',
-    'Respuesta 3',
-    'Respuesta 4'
+    'Opcion correcta 1',
+    'Opcion correcta 2',
+    'Opcion correcta 3',
+    'Opcion correcta 4',
   ];
 
   int wheel1SelectedIndex = 0;
@@ -50,11 +78,10 @@ class _GameScreenState extends State<GameScreen> {
   Difficulty selectedDifficulty = Difficulty.easy; // Dificultad seleccionada
 
   late Timer _timer;
-  int _secondsRemaining = 5;
+  int _secondsRemaining = 60;
 
   //Identificar que el temporizador se ha terminado
   bool get timerHasFinished => _secondsRemaining == 0;
-  
 
   @override
   void initState() {
@@ -75,11 +102,20 @@ class _GameScreenState extends State<GameScreen> {
           _secondsRemaining--;
         } else {
           // Aquí puedes agregar la lógica cuando el tiempo se agota
-          if(timerHasFinished){
+          if (timerHasFinished) {
             print('El tiempo se ha terminado');
-            level=0;
-
-  }
+            level = 0;
+            if (currentQuestionIndex < PreguntasEasy.length - 1) {
+              currentQuestionIndex++;
+              _secondsRemaining = 60;
+              
+              // if(_secondsRemaining < 50){
+              //   level = 1;
+              // }
+            } else {
+              // Has llegado a la última pregunta, puedes mostrar un mensaje o realizar alguna acción adicional
+            }
+          }
         }
       });
     });
@@ -126,9 +162,9 @@ class _GameScreenState extends State<GameScreen> {
                   color: Color.fromARGB(90, 114, 95, 10),
                   child: Center(
                     child: Text(
-                      'HOLA MUNDO PROBANDO',
+                      PreguntasEasy[currentQuestionIndex],
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -150,7 +186,7 @@ class _GameScreenState extends State<GameScreen> {
                             setState(() {
                               wheel1SelectedIndex = _getRandomIndex(
                                   wheel1SelectedIndex, wheel1Options.length);
-                                  startTimer();
+                              startTimer();
                             });
                           }
                         },
@@ -290,65 +326,74 @@ class _GameScreenState extends State<GameScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: Container(
-              color: Color.fromARGB(255, 252, 251, 251),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Progreso',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    height: 15,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 245, 238, 238),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Stack(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.brown[600],
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        FractionallySizedBox(
-                          alignment: Alignment.centerLeft,
-                          widthFactor: 0.5,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.yellow[700],
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Expanded(
+          //   child: Container(
+          //     color: Color.fromARGB(255, 252, 251, 251),
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: [
+          //         Text(
+          //           'Progreso',
+          //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          //         ),
+          //         SizedBox(height: 10),
+          //         Container(
+          //           height: 15,
+          //           decoration: BoxDecoration(
+          //             color: Color.fromARGB(255, 245, 238, 238),
+          //             borderRadius: BorderRadius.circular(5),
+          //           ),
+          //           child: Stack(
+          //             children: [
+          //               Container(
+          //                 width: double.infinity,
+          //                 decoration: BoxDecoration(
+          //                   color: Colors.brown[600],
+          //                   borderRadius: BorderRadius.circular(5),
+          //                 ),
+          //               ),
+          //               FractionallySizedBox(
+          //                 alignment: Alignment.centerLeft,
+          //                 widthFactor: 0.5,
+          //                 child: Container(
+          //                   decoration: BoxDecoration(
+          //                     color: Colors.yellow[700],
+          //                     borderRadius: BorderRadius.circular(5),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           Row(
             children: [
-
-              //ESTE BOTON ES DE PRUEBA PARA VERIFICAR QUE SI SE BLOQUEAN LOS BOTONES
+              //ESTE BOTON ES DE PRUEBA PARA VERIFICAR QUE SI SE DESBLOQUEAN LOS BOTONES
               ElevatedButton(
+                // onPressed: () {
+                //   if (level < 3) {
+                //     setState(() {
+                //       level++;
+                //       selectedDifficulty = Difficulty.values[level - 1];
+                //     });
+                //   } else {
+                //     // Fin del juego, mostrar puntaje, reiniciar nivel, etc.
+                //   }
+                // },
                 onPressed: () {
-                  if (level < 3) {
-                    setState(() {
-                      level++;
-                      selectedDifficulty = Difficulty.values[level - 1];
-                    });
-                  } else {
-                    // Fin del juego, mostrar puntaje, reiniciar nivel, etc.
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ScoreScreen(
+                          score: currentQuestionIndex+1, coins: 10, stars: 5),
+                    ),
+                  );
                 },
-                child: Text('Siguiente nivel'),
+
+                child: Text('Terminar'),
               ),
               SizedBox(width: 10),
               ElevatedButton(
@@ -359,10 +404,28 @@ class _GameScreenState extends State<GameScreen> {
                     wheel2SelectedIndex = 0;
                     wheel3SelectedIndex = 0;
                     selectedDifficulty = Difficulty.easy;
-                    _secondsRemaining = 5;
+                    _secondsRemaining = 60;
                   });
                 },
                 child: Text('Reiniciar'),
+              ),
+              SizedBox(width: 10),
+              //QUiero un iconbutton
+              Container(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
+                  backgroundColor: Colors.green,
+                  onPressed: () {
+                    if (currentQuestionIndex < PreguntasEasy.length - 1) {
+                      setState(() {
+                        currentQuestionIndex++;
+                      });
+                    } else {
+                      // Has llegado a la última pregunta, puedes mostrar un mensaje o realizar alguna acción adicional
+                    }
+                  },
+                  child: const Icon(Icons.check),
+                ),
               ),
             ],
           ),
