@@ -4,6 +4,7 @@ import 'nivel1.dart';
 import 'login.dart';
 import 'map.dart';
 import 'menu.dart';
+import 'nivel2.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'El Quijote de la Mancha',
       theme: temaDonQuijote,
       // home: LoginScreen(),
-      home: GameScreen(),
+      home: DragAndDropScreen(),
     );
   }
 }
