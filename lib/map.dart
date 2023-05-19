@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,10 +26,18 @@ class MapScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Mapa del Quijote'),
       ),
-      body: Center(
-        child: CustomPaint(
-          painter: MapPainter(),
-          size: Size(300, 300),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/map_background.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: CustomPaint(
+            painter: MapPainter(),
+            size: Size(300, 300),
+          ),
         ),
       ),
     );

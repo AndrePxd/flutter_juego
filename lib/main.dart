@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'El Quijote de la Mancha',
       theme: temaDonQuijote,
-      // home: LoginScreen(),
-      home: DragAndDropScreen(),
+      home: LoginScreen(),
+      // home: DragAndDropScreen(),
     );
   }
 }

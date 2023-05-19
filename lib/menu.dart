@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'map.dart';
+import 'nivel1.dart';
 
 class MenuScreen extends StatelessWidget {
   int _monedas = 0;
@@ -240,7 +241,7 @@ class _NivelCardState extends State<NivelCard>
                 child: Center(
                   child: ElevatedButton(
                     onPressed: _toggleDificultades,
-                    child: Text('Jugar'),
+                    child: Text('Jugar\n ${widget.nivel}'),
                     style: ElevatedButton.styleFrom(
                       primary: Colors.brown,
                       shape: RoundedRectangleBorder(
@@ -358,7 +359,14 @@ class _DificultadDetalleWidgetState extends State<DificultadDetalleWidget> {
           ),
           Padding(padding: EdgeInsets.all(5)),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GameScreen(),
+                ),
+              );
+            },
             child: Text('Iniciar'),
           ),
           ElevatedButton(
